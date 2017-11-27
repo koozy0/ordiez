@@ -5,10 +5,13 @@ RSpec.describe DeliveryOrder, type: :model do
 
   context 'validations' do
     it do
-      should validate_presence_of(:order_id)
       should validate_presence_of(:serving_datetime)
-      should validate_uniqueness_of(:order_id)
     end
+  end
+
+  it "creates an order_id on create"do
+    @delivery_order = FactoryBot.create(:delivery_order)
+    expect(@delivery_order.order_id).to eq("GO%.5d" % @delivery_order.id)
   end
 
   context 'associations' do
