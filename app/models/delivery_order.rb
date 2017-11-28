@@ -1,6 +1,7 @@
 class DeliveryOrder < ApplicationRecord
   # associations
   has_many :order_items
+  has_one :feedback, as: :ratable, dependent: :destroy
   # validations
   validates :serving_datetime, presence: true
   # validates :order_id, uniqueness: true

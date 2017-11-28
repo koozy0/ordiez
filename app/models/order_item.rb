@@ -2,6 +2,7 @@ class OrderItem < ApplicationRecord
   # associations
   belongs_to :meal, dependent: :destroy
   belongs_to :delivery_order, dependent: :destroy
+  has_one :feedback, as: :ratable, dependent: :destroy
   # validations
   validates :delivery_order_id, :meal_id, :quantity, :unit_price, presence: true
 
