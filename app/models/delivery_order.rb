@@ -16,17 +16,37 @@ class DeliveryOrder < ApplicationRecord
   end
 
   # formatting information to return
-  def format_order
+  def format
+    # order_id
     order_id = self.order_id
+    # delivery_time
     delivery_time_start = self.serving_datetime.strftime('%I:%M')
     delivery_time_end = (self.serving_datetime + 30*60).strftime('%I:%M%p')
     delivery_time = delivery_time_start + "-" + delivery_time_end
+    # delivery_date
     delivery_date = self.serving_datetime.to_date
+    # feedback_submitted
+    self.feedback ? feedback_submitted = true : feedback_submitted = false
+    # order_items
+    order_items = []
+    self.order_items.each do |item|
+      order_item_id = item.id
+      name = item.meal.name
+      order_items.push(
+        {
+          order_item_id: order_item_id,
+          name: name
+        }
+      )
+    end
+
     # return object
     {
       order_id: order_id,
       delivery_date: delivery_date,
-      delivery_time: delivery_time
+      delivery_time: delivery_time,
+      feedback_submitted: feedback_submitted,
+      order_items: order_items
     }
   end
 end
